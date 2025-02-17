@@ -1,4 +1,3 @@
-// Recommendation.js
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -171,35 +170,56 @@ function Recommendation({ images }) {
   };
 
   return (
-    <div className="recommendation-page">
-      <h1>Recommendations</h1>
-      <button onClick={handlePredict} disabled={loading}>
-        {loading ? "Processing..." : "Get Recommendations"}
-      </button>
-      <button onClick={goBack} style={{ marginLeft: "10px" }}>
-        Back to Main Page
-      </button>
-      <div>
-        <p>{predictionOutput}</p>
-        {annotatedImages.front && (
-          <div className="annotated-images">
-            <h3>Annotated Images</h3>
-            <img src={annotatedImages.front} alt="Front Annotated" />
-            <img src={annotatedImages.right} alt="Right Annotated" />
-            <img src={annotatedImages.left} alt="Left Annotated" />
-          </div>
-        )}
+    <div className="recommendation-page" style={{ display: "flex", height: "100vh" }}>
+      {/* Left Panel - Scrollable Images */}
+      <div style={{ flex: 1, overflowX: "scroll", padding: "10px" }}>
+        <h1>Captured Images</h1>
+        <div style={{ display: "flex", justifyContent: "center", gap: "20px" }}>
+          {annotatedImages.front && (
+            <div>
+              <h3>Front Image</h3>
+              <img src={annotatedImages.front} alt="Front Annotated" style={{ width: "200px", height: "auto" }} />
+            </div>
+          )}
+          {annotatedImages.right && (
+            <div>
+              <h3>Right Image</h3>
+              <img src={annotatedImages.right} alt="Right Annotated" style={{ width: "200px", height: "auto" }} />
+            </div>
+          )}
+          {annotatedImages.left && (
+            <div>
+              <h3>Left Image</h3>
+              <img src={annotatedImages.left} alt="Left Annotated" style={{ width: "200px", height: "auto" }} />
+            </div>
+          )}
+        </div>
       </div>
+
+      {/* Right Panel - Recommendations */}
       <div
         style={{
-          background: "#2A6478",
+          flex: 1,
+          backgroundColor: "#2A6478",
           color: "white",
-          padding: "10px",
-          whiteSpace: "pre-line",
-          marginTop: "20px",
+          padding: "20px",
+          overflowY: "scroll",
+          marginLeft: "10px",
         }}
       >
-        {recommendation}
+        <h1>Recommendations</h1>
+        <button onClick={handlePredict} disabled={loading}>
+          {loading ? "Processing..." : "Get Recommendations"}
+        </button>
+        <button onClick={goBack} style={{ marginLeft: "10px" }}>
+          Back to Main Page
+        </button>
+        <div>
+          <p>{predictionOutput}</p>
+        </div>
+        <div style={{ whiteSpace: "pre-line", marginTop: "20px" }}>
+          {recommendation}
+        </div>
       </div>
     </div>
   );
