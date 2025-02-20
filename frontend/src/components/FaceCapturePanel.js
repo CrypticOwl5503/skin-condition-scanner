@@ -34,9 +34,13 @@ const FaceCapturePanel = ({ faceType, onProceed }) => {
                 border: '1px solid #ccc',
               }}
             />
-            <button onClick={() => onProceed(capturedImage)} style={{ marginTop: '10px' }}>
-              Proceed
-            </button>
+<button 
+  onClick={() => onProceed(capturedImage)} 
+  className="action-button"
+>
+  Proceed
+</button>
+
           </>
         ) : (
           <p>No image captured yet.</p>

@@ -1,0 +1,66 @@
+.nav-button {
+    font-size: 1.3rem;
+    padding: 1rem 2.5rem;
+    background: #1e3a8a;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    font-weight: 600;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .nav-button:hover {
+    background: #172554;
+    transform: translateY(-53%);
+  }
+  
+  .left-button {
+    left: 0;
+  }
+  
+  .right-button {
+    right: 0;
+  }
+  
+  .image-display {
+    width: 600px;
+    height: auto;
+  }
+  
+  .recommendation-panel {
+    flex: 1;
+    background-color: #2a6478;
+    color: white;
+    padding: 20px;
+    overflow-y: scroll;
+    margin-left: 10px;
+  }
+
+  .action-button {
+    font-size: 1.3rem;
+    padding: 1rem 2.5rem;
+    margin: 10px;
+    background: #1e3a8a; /* Deep blue */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    font-weight: 600;
+    margin-top: 10px; /* Adds spacing between buttons */
+  }
+  
+  .action-button:hover {
+    background: #172554;
+    transform: translateY(-3px);
+  }
+  
+  .action-button:disabled {
+    background: #6b7280; /* Greyed-out when disabled */
+    cursor: not-allowed;
+  }
+  

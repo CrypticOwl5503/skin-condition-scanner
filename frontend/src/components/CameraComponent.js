@@ -113,12 +113,13 @@ const CameraComponent = ({ onCapture, faceType = 'front' }) => {
       {/* Capture button */}
       <button
         onClick={captureImage}
-        className="capture-button"
+        className="action-button"
         disabled={isCapturing}
-        style={{ marginTop: '10px' }}
+        style={{ position: "absolute", bottom: "10px", left: "50%", transform: "translateX(-50%)" }}
       >
-        {isCapturing ? 'Capturing...' : 'Capture Image'}
+        {isCapturing ? "Capturing..." : "Capture Image"}
       </button>
+
     </div>
   );
 };

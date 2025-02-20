@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/Recommendation.css";
 
 function Recommendation({ images }) {
   const uniqueClasses = useRef(new Set());
@@ -11,13 +12,14 @@ function Recommendation({ images }) {
     left: null,
   });
   const [loading, setLoading] = useState(false);
+  const [currentImage, setCurrentImage] = useState("front"); // State to track the current image
   const navigate = useNavigate();
 
   // Automatic redirect to MainPage.js after 2 minutes (120,000 ms)
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate("/"); // adjust the path to your MainPage route if needed
-    }, 120000);
+    }, 12000000);
 
     return () => clearTimeout(timer);
   }, [navigate]);
@@ -169,51 +171,60 @@ function Recommendation({ images }) {
     navigate("/"); // adjust the path if needed
   };
 
+  // Handler to change the current image
+  const changeImage = (direction) => {
+    const imageOrder = ["front", "right", "left"];
+    let currentIndex = imageOrder.indexOf(currentImage);
+    if (direction === "left") {
+      currentIndex = (currentIndex - 1 + imageOrder.length) % imageOrder.length;
+    } else {
+      currentIndex = (currentIndex + 1) % imageOrder.length;
+    }
+    setCurrentImage(imageOrder[currentIndex]);
+  };
+
   return (
     <div className="recommendation-page" style={{ display: "flex", height: "100vh" }}>
-      {/* Left Panel - Scrollable Images */}
-      <div style={{ flex: 1, overflowX: "scroll", padding: "10px" }}>
+      {/* Left Panel - Image Toggling */}
+      <div style={{ flex: 1, padding: "10px", textAlign: "center" }}>
         <h1>Captured Images</h1>
-        <div style={{ display: "flex", justifyContent: "center", gap: "20px" }}>
-          {annotatedImages.front && (
-            <div>
-              <h3>Front Image</h3>
-              <img src={annotatedImages.front} alt="Front Annotated" style={{ width: "200px", height: "auto" }} />
-            </div>
-          )}
-          {annotatedImages.right && (
-            <div>
-              <h3>Right Image</h3>
-              <img src={annotatedImages.right} alt="Right Annotated" style={{ width: "200px", height: "auto" }} />
-            </div>
-          )}
-          {annotatedImages.left && (
-            <div>
-              <h3>Left Image</h3>
-              <img src={annotatedImages.left} alt="Left Annotated" style={{ width: "200px", height: "auto" }} />
-            </div>
-          )}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+          {/* Left Button */}
+          <button onClick={() => changeImage("left")} className="nav-button left-button">
+            {"<"}
+          </button>
+  
+          {/* Display Image */}
+          <div style={{ textAlign: "center" }}>
+            {annotatedImages[currentImage] && (
+              <div>
+                <h3>{currentImage.charAt(0).toUpperCase() + currentImage.slice(1)} Image</h3>
+                <img
+                  src={annotatedImages[currentImage]}
+                  alt={`${currentImage} Annotated`}
+                  className="image-display"
+                />
+              </div>
+            )}
+          </div>
+  
+          {/* Right Button */}
+          <button onClick={() => changeImage("right")} className="nav-button right-button">
+            {">"}
+          </button>
         </div>
       </div>
-
+  
       {/* Right Panel - Recommendations */}
-      <div
-        style={{
-          flex: 1,
-          backgroundColor: "#2A6478",
-          color: "white",
-          padding: "20px",
-          overflowY: "scroll",
-          marginLeft: "10px",
-        }}
-      >
+      <div className="recommendation-panel">
         <h1>Recommendations</h1>
-        <button onClick={handlePredict} disabled={loading}>
-          {loading ? "Processing..." : "Get Recommendations"}
-        </button>
-        <button onClick={goBack} style={{ marginLeft: "10px" }}>
-          Back to Main Page
-        </button>
+        <button onClick={handlePredict} className="action-button" disabled={loading}>
+  {loading ? "Processing..." : "Get Recommendations"}
+</button>
+<button onClick={goBack} className="action-button">
+  Back to Main Page
+</button>
+
         <div>
           <p>{predictionOutput}</p>
         </div>
@@ -223,6 +234,8 @@ function Recommendation({ images }) {
       </div>
     </div>
   );
+  
+  
 }
 
 export default Recommendation;
