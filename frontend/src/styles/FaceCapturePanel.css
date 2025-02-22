@@ -10,7 +10,7 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: #f9fafb;
+  background-color: #ffffff;
 }
 
 /* Face capture container */
@@ -63,16 +63,18 @@ body {
 
 /* Proceed button */
 .proceed-btn {
-  margin-top: 15px;
-  padding: 10px 20px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  background: #1e3a8a;
+  display: block;
+  margin: auto;
+  margin-bottom: 20px;
+  font-size: 1.3rem; /* Slightly larger */
+  padding: 1rem 2.5rem;
+  background: #1e3a8a; /* Deeper blue */
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.2s ease;
+  font-weight: 600;
 }
 
 .proceed-btn:hover {

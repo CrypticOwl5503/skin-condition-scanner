@@ -30,6 +30,21 @@ const CameraComponent = ({ onCapture, faceType = 'front' }) => {
     };
   }, []);
 
+
+  //Add a keyboard listener for 'a' key to trigger capture image
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      if(event.key === 'c' && !isCapturing) {
+        captureImage();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [isCapturing]);// Dependency to ensure listener checks the current isCapturing state
+
   // Determine the overlay outline style based on faceType
   const getOutlineStyle = () => {
     const baseStyle = {
@@ -117,7 +132,7 @@ const CameraComponent = ({ onCapture, faceType = 'front' }) => {
         disabled={isCapturing}
         style={{ position: "absolute", bottom: "10px", left: "50%", transform: "translateX(-50%)" }}
       >
-        {isCapturing ? "Capturing..." : "Capture Image"}
+        {isCapturing ? "Capturing..." : "Capture Image (Press 'C')"}
       </button>
 
     </div>

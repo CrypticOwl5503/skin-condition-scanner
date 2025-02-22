@@ -2,6 +2,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import FaceCapturePanel from "../components/FaceCapturePanel";
+import '../styles/FrontCapture.css';
 
 function FrontCapture({ images, setImages }) {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ function FrontCapture({ images, setImages }) {
   };
 
   return (
-    <div>
+    <div className="front-capture-page">
       <h2>Capture Front Face</h2>
       <FaceCapturePanel faceType="front" onProceed={handleProceed} />
     </div>

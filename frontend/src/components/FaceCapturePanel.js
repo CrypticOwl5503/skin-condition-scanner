@@ -1,15 +1,33 @@
 // FaceCapturePanel.js
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import CameraComponent from './CameraComponent';
+import '../styles/FaceCapturePanel.css';
 
 const FaceCapturePanel = ({ faceType, onProceed }) => {
   const [capturedImage, setCapturedImage] = useState(null);
+  const proceedButtonRef = React.useRef(null); // Ref for the "Proceed" button
 
   // When the camera component captures an image, save it here.
   const handleCapture = (blob) => {
     const url = URL.createObjectURL(blob);
     setCapturedImage(url);
   };
+
+  // Add event listener for the 'a' key to trigger the "Proceed" button click
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      if (event.key === 'p' && proceedButtonRef.current) {
+        proceedButtonRef.current.click();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+
+    // Cleanup the event listener on unmount
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  }, []);
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
@@ -26,7 +44,7 @@ const FaceCapturePanel = ({ faceType, onProceed }) => {
           <>
             <img
               src={capturedImage}
-              alt={`${faceType} captured`}
+              alt={'${faceType} captured'}
               style={{
                 width: '100%',
                 height: '100%',
@@ -36,9 +54,10 @@ const FaceCapturePanel = ({ faceType, onProceed }) => {
             />
 <button 
   onClick={() => onProceed(capturedImage)} 
-  className="action-button"
+  className="proceed-btn"
+  ref={proceedButtonRef} // Attach the ref to the "Proceed" button
 >
-  Proceed
+  Proceed (Press 'P')
 </button>
 
           </>
