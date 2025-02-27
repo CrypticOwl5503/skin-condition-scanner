@@ -34,7 +34,7 @@ const CameraComponent = ({ onCapture, faceType = 'front' }) => {
   //Add a keyboard listener for 'a' key to trigger capture image
   useEffect(() => {
     const handleKeyPress = (event) => {
-      if(event.key === 'c' && !isCapturing) {
+      if(event.key === 'Enter' && !isCapturing) {
         captureImage();
       }
     };
@@ -115,7 +115,7 @@ const CameraComponent = ({ onCapture, faceType = 'front' }) => {
   };
 
   return (
-    <div style={{ position: 'relative', width: '640px', height: '480px' }}>
+    <div style={{ position: 'relative', width: '700px', height: '525px' }}>
       {/* Live preview video */}
       <video
         ref={videoRef}
@@ -132,7 +132,7 @@ const CameraComponent = ({ onCapture, faceType = 'front' }) => {
         disabled={isCapturing}
         style={{ position: "absolute", bottom: "10px", left: "50%", transform: "translateX(-50%)" }}
       >
-        {isCapturing ? "Capturing..." : "Capture Image (Press 'C')"}
+        {isCapturing ? "Capturing..." : "Capture Image (Press Button)"}
       </button>
 
     </div>

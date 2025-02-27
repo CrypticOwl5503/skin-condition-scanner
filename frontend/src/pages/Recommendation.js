@@ -11,44 +11,44 @@ function Recommendation({ images }) {
     right: null,
     left: null,
   });
-  
   const [loading, setLoading] = useState(false);
-  const [currentImage, setCurrentImage] = useState("front"); // Track the current image
+  const [recommendationDone, setRecommendationDone] = useState(false);
+
   const navigate = useNavigate();
 
-  // Automatic redirect to MainPage.js after 2 minutes (120,000 ms)
+  // Automatic redirect to MainPage after 2 minutes
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate("/"); // adjust the path if needed
+      navigate("/");
     }, 120000);
-
     return () => clearTimeout(timer);
   }, [navigate]);
 
+  // Automatically trigger prediction when the component mounts
+  useEffect(() => {
+    handlePredict();
+  }, []);
+
   const handlePredict = async () => {
     uniqueClasses.current = new Set(); // Reset detected conditions
-
     if (!images.front || !images.right || !images.left) {
       alert("Please capture all images before predicting.");
       return;
     }
     setLoading(true);
-
     const formData = new FormData();
     const frontBlob = await fetch(images.front).then((res) => res.blob());
     const rightBlob = await fetch(images.right).then((res) => res.blob());
     const leftBlob = await fetch(images.left).then((res) => res.blob());
-
     formData.append("front", new File([frontBlob], "front.jpg", { type: "image/jpeg" }));
     formData.append("right", new File([rightBlob], "right.jpg", { type: "image/jpeg" }));
     formData.append("left", new File([leftBlob], "left.jpg", { type: "image/jpeg" }));
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/predict?timestamp=${Date.now()}", {
+      const response = await fetch(`http://127.0.0.1:8000/predict?timestamp=${Date.now()}`, {
         method: "POST",
         body: formData,
       });
-
       if (response.ok) {
         const data = await response.json();
         console.log("Prediction results:", data);
@@ -59,8 +59,6 @@ function Recommendation({ images }) {
             uniqueClasses.current.add(el.class_name);
           });
         });
-
-        setAnnotatedImages({ front: null, right: null, left: null });
 
         setAnnotatedImages({
           front: `http://127.0.0.1:8000${data.front.annotated_image_url}?timestamp=${Date.now()}`,
@@ -196,6 +194,7 @@ function Recommendation({ images }) {
 
         setRecommendation(ans);
         setLoading(false);
+        setRecommendationDone(true); // Recommendation process is complete—button will be hidden
       } else {
         alert("Prediction failed. Please try again.");
         setLoading(false);
@@ -209,31 +208,15 @@ function Recommendation({ images }) {
 
   // Handler for the "Back to Main Page" button
   const goBack = () => {
-    navigate("/"); // adjust the path if needed
+    navigate("/");
   };
 
-  // Handler to change the current image
-  const changeImage = (direction) => {
-    const imageOrder = ["front", "right", "left"];
-    let currentIndex = imageOrder.indexOf(currentImage);
-    if (direction === "left") {
-      currentIndex = (currentIndex - 1 + imageOrder.length) % imageOrder.length;
-    } else {
-      currentIndex = (currentIndex + 1) % imageOrder.length;
-    }
-    setCurrentImage(imageOrder[currentIndex]);
-  };
-
-  // Adding event listeners for keyboard navigation
+  // Optional: Add keydown event handling for navigation
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === "ArrowLeft") {
-        document.getElementById("leftButton")?.click();
-      } else if (event.key === "ArrowRight") {
-        document.getElementById("rightButton")?.click();
-      } else if (event.key === "Enter") {
+      if (event.key === "Enter" && !recommendationDone) {
         document.getElementById("recommendationsButton")?.click();
-      } else if (event.key === "m") {
+      } else if (event.key === "Enter") {
         document.getElementById("mainPageButton")?.click();
       }
     };
@@ -242,51 +225,58 @@ function Recommendation({ images }) {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [recommendationDone]);
 
   return (
     <div className="recommendation-page">
-      {/* Left Panel - Image Toggling */}
+      {/* Left Panel - Vertically Stacked Images */}
       <div className="image-panel">
         <h1>Captured Images</h1>
         <div className="image-container">
-          {Object.keys(annotatedImages).length > 0 && (
-            <button onClick={() => changeImage("left")} className="nav-button left-button" id="leftButton">
-              {"<"}
-            </button>
-          )}
-  
-          {annotatedImages[currentImage] && (
-            <div>
-              <h3>{currentImage.charAt(0).toUpperCase() + currentImage.slice(1)} Image</h3>
-              <img src={annotatedImages[currentImage]} alt={`${currentImage} Annotated`} className="image-display" />
+          {annotatedImages.front && (
+            <div className="image-block">
+              <h3>Front Image</h3>
+              <img src={annotatedImages.front} alt="Front Annotated" className="image-display" />
             </div>
           )}
-  
-          {Object.keys(annotatedImages).length > 0 && (
-            <button onClick={() => changeImage("right")} className="nav-button right-button" id="rightButton">
-              {">"}
-            </button>
+          {annotatedImages.right && (
+            <div className="image-block">
+              <h3>Right Image</h3>
+              <img src={annotatedImages.right} alt="Right Annotated" className="image-display" />
+            </div>
+          )}
+          {annotatedImages.left && (
+            <div className="image-block">
+              <h3>Left Image</h3>
+              <img src={annotatedImages.left} alt="Left Annotated" className="image-display" />
+            </div>
           )}
         </div>
       </div>
-  
+
       {/* Right Panel - Recommendations */}
       <div className="recommendation-panel">
         <h1>Recommendations</h1>
-        <button onClick={handlePredict} className="action-button" disabled={loading} id="recommendationsButton">
-          {loading ? "Processing..." : "Get Recommendations (Press 'Enter')"}
-        </button>
+        {!recommendationDone && (
+          <button
+            onClick={handlePredict}
+            className="action-button"
+            disabled={loading}
+            id="recommendationsButton"
+          >
+            {loading ? "Processing..." : "Get Recommendations"}
+          </button>
+        )}
         <button onClick={goBack} className="action-button" id="mainPageButton">
-          Back to Main Page (Press 'M')
+          Back to Main Page (Press Button)
         </button>
-        <div><p>{predictionOutput}</p></div>
+        <div>
+          <p>{predictionOutput}</p>
+        </div>
         <div className="recommendation-text">{recommendation}</div>
       </div>
     </div>
   );
-  
-  
 }
 
 export default Recommendation;

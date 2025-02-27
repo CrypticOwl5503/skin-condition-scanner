@@ -83,6 +83,24 @@ body {
   margin-left: 10px;
 }
 
+.image-container {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  gap: 20px; /* Add spacing between images */
+}
+
+.image-block {
+  text-align: center; /* Center-align each image block */
+}
+
+.image-display {
+  width: 100%;
+  max-width: 200px; /* Adjust as needed */
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+
 /* Buttons */
 .action-button {
   font-size: 1.3rem;

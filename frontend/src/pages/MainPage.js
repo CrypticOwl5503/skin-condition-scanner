@@ -24,7 +24,7 @@ function LandingPage() {
     <div className="landing-page">
       <div className="content">
         <h1>Skin Condition Scanner</h1>
-        <p>Press Enter to continue!</p>
+        <p>Press Button to continue!</p>
         <button onClick={() => navigate("/front")}>Start</button>
       </div>
     </div>
