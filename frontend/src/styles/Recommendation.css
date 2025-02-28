@@ -1,0 +1,152 @@
+/* Import modern fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f9fafb;
+}
+
+/* Full-screen minimal gradient background */
+.recommendation-page {
+  display: flex;
+  height: 100vh;
+  background: linear-gradient(135deg, #1e3a8a, #2a6478);
+}
+
+/* Left Panel - Image Display */
+.image-panel {
+  flex: 1;
+  padding: 20px;
+  text-align: center;
+  background: linear-gradient(135deg, #1f2f6f 0%, #2a6478 100%);
+  color: white;
+}
+
+/* Image container with navigation */
+.image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Navigation Buttons */
+.nav-button {
+  font-size: 1.3rem;
+  padding: 1rem 2rem;
+  background: #0b132b;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  font-weight: 600;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.nav-button:hover {
+  background: #1c2541;
+  transform: translateY(-53%);
+}
+
+.left-button {
+  left: 10px;
+}
+
+.right-button {
+  right: 10px;
+}
+
+/* Image Styling */
+.image-display {
+  width: 500px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Right Panel - Recommendations */
+.recommendation-panel {
+  flex: 1;
+  background: linear-gradient(135deg, #172554 0%, #1e3a8a 100%);
+  color: white;
+  padding: 30px;
+  overflow-y: auto;
+  margin-left: 10px;
+}
+
+.image-container {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  gap: 20px; /* Add spacing between images */
+}
+
+.image-block {
+  text-align: center; /* Center-align each image block */
+}
+
+.image-display {
+  width: 100%;
+  max-width: 200px; /* Adjust as needed */
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Buttons */
+.action-button {
+  font-size: 1.3rem;
+  padding: 1rem 2.5rem;
+  margin: 10px;
+  background: #004e92;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  font-weight: 600;
+}
+
+.action-button:hover {
+  background: #003f7f;
+  transform: translateY(-3px);
+  box-shadow: 0px 5px 15px rgba(0, 78, 146, 0.3);
+}
+
+.action-button:disabled {
+  background: #6b7280;
+  cursor: not-allowed;
+}
+
+/* Recommendation Text */
+.recommendation-text {
+  white-space: pre-line;
+  margin-top: 20px;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.image-panel, .recommendation-panel {
+  animation: fadeIn 1s ease-in-out;
+}

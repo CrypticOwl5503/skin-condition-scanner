@@ -18,7 +18,7 @@ def load_model(model_path):
         raise e
 
 
-def predict_and_draw(image_path, class_names ,color_map, model, conf=0.25, iou=0.3):
+def predict_and_draw(image_path, class_names ,color_map, model, conf=0.25, iou=0.0001):
     """
     Predict bounding boxes and draw them on the image using OpenCV.
     """
@@ -29,7 +29,7 @@ def predict_and_draw(image_path, class_names ,color_map, model, conf=0.25, iou=0
     boxes = results[0].boxes.data.cpu().numpy()  # Format: [x1, y1, x2, y2, conf, class]
 
     # Merge overlapping boxes
-    merged_boxes = merge_overlapping_boxes(boxes, iou_threshold=0.1)
+    merged_boxes = merge_overlapping_boxes(boxes, iou_threshold=0.0001)
 
     # Load the original image
     image = cv2.imread(image_path)

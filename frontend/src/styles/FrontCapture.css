@@ -14,12 +14,8 @@ body {
 }
 
 /* Full-screen gradient background */
-.landing-page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.front-capture-page {
   min-height: 100vh;
-  text-align: center;
   background: linear-gradient(135deg, #74b9ff 0%, #a1c4fd 100%);
   color: #ffffff;
   padding: 2rem;
@@ -33,16 +29,17 @@ body {
 }
 
 /* Grand heading */
-.content h1 {
+.front-capture-page h2 {
   font-size: 3.5rem; /* Increased for a bolder presence */
   font-weight: 900; /* Extra bold */
+  text-align: center;
   margin-bottom: 1rem;
   letter-spacing: 1px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
 }
 
 /* Subtext */
-.content p {
+.front-capture-page p {
   font-size: 1.2rem;
   font-weight: 400;
   margin-bottom: 2rem;
